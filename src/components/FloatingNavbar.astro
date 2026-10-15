@@ -1,0 +1,25 @@
+---
+import { content, identity, paths, type Locale, type View } from '../content/site';
+interface Props { locale: Locale; view: View }
+const { locale, view } = Astro.props;
+const t = content[locale];
+const technical = view === 'engineering';
+const items = technical
+  ? [['Frame','#frame'], ['euFunding','#eufunding'], ['SecureNotes','#systems']]
+  : [[t.nav.about,'#about'], [t.nav.experience,'#experience'], [t.nav.projects,'#work'], [t.nav.education,'#education'], [t.nav.approach,'#thinking']];
+---
+<header class:list={['site-header', { 'is-dark': technical }]} data-site-header>
+  <nav class="nav-shell" aria-label={locale === 'es' ? 'Navegación principal' : 'Main navigation'}>
+    <a class="brand" href="#top" aria-label={t.nav.toTop}>{identity.initials}</a>
+    <div class="nav-links" id="portfolio-navigation" data-nav-links>
+      {items.map(item => <a class="nav-anchor" href={item[1]} data-anchor={item[1]}>{item[0]}</a>)}
+      <a class="nav-anchor" href="#contact" data-anchor="#contact">{t.nav.contact}</a>
+    </div>
+    <div class="nav-end">
+      <div class="language-switch" role="group" aria-label={t.nav.switchLanguage}>
+        <a href={paths('en')[view]} lang="en" class:list={{ active: locale === 'en' }} aria-current={locale === 'en' ? 'true' : undefined}>EN</a><span aria-hidden="true">/</span><a href={paths('es')[view]} lang="es" class:list={{ active: locale === 'es' }} aria-current={locale === 'es' ? 'true' : undefined}>ES</a>
+      </div>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-controls="portfolio-navigation" aria-expanded="false" aria-label={locale === 'es' ? 'Abrir menú' : 'Open menu'} data-open-label={locale === 'es' ? 'Menú' : 'Menu'} data-close-label={locale === 'es' ? 'Cerrar' : 'Close'}><span class="menu-toggle-label">{locale === 'es' ? 'Menú' : 'Menu'}</span><span class="menu-toggle-icon" aria-hidden="true"></span></button>
+    </div>
+  </nav>
+</header>
