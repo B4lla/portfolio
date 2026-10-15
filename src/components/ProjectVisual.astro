@@ -1,0 +1,11 @@
+---
+import type { Locale, ProjectId } from '../content/site';
+import { projectImages, type VerifiedPublicImage } from '../content/publicFiles';
+import PublicImage from './PublicImage.astro';
+interface Props { locale: Locale; project: ProjectId; images?: VerifiedPublicImage[] }
+const { locale, project, images: resolvedImages } = Astro.props;
+const images = resolvedImages ?? projectImages(project);
+---
+{images.length > 0 && <div class:list={['project-media', `project-media--${project}`]}>
+  {images.map((image, index) => <PublicImage image={image} locale={locale} className={index === 0 ? 'project-screenshot project-screenshot--cover' : 'project-screenshot project-screenshot--additional'} />)}
+</div>}
