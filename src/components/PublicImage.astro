@@ -1,0 +1,18 @@
+---
+import type { Locale } from '../content/site';
+import type { VerifiedPublicImage } from '../content/publicFiles';
+// Render-only component, image must come from publicImage() / projectImages().
+interface Props { image: VerifiedPublicImage; locale: Locale; priority?: boolean; className?: string }
+const { image, locale, priority = false, className = '' } = Astro.props;
+const cssVars = [
+  `--image-aspect:${image.aspectRatio}`,
+  `--image-fit:${image.objectFit ?? 'contain'}`,
+  `--image-position:${image.objectPosition ?? 'center'}`,
+  image.mobileObjectFit && `--image-fit-mobile:${image.mobileObjectFit}`,
+  image.mobileObjectPosition && `--image-position-mobile:${image.mobileObjectPosition}`,
+].filter(Boolean).join(';');
+---
+<figure class:list={['content-image', className]} style={cssVars}>
+  <img src={image.src} alt={image.alt[locale]} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : undefined} decoding="async" />
+  {image.caption?.[locale] && <figcaption class="meta">{image.caption[locale]}</figcaption>}
+</figure>
