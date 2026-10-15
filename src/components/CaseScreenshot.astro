@@ -1,0 +1,11 @@
+---
+import type { Locale, ProjectId } from '../content/site';
+import { projectImages } from '../content/publicFiles';
+import PublicImage from './PublicImage.astro';
+interface Props { locale: Locale; project: ProjectId }
+const { locale, project } = Astro.props;
+const images = projectImages(project);
+---
+{images.length > 0 && <div class="case-gallery">
+  {images.map(image => <PublicImage image={image} locale={locale} className="case-screenshot" />)}
+</div>}
