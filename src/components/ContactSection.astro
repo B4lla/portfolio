@@ -1,0 +1,25 @@
+---
+import { content, identity, normaliseLinkedInUrl, type Locale } from '../content/site';
+import ResumeLinks from './ResumeLinks.astro';
+interface Props { locale: Locale; chapter: string }
+const { locale, chapter } = Astro.props;
+const t = content[locale];
+const linkedinHref = normaliseLinkedInUrl(identity.linkedin);
+const hasContact = Boolean(identity.email || linkedinHref);
+---
+<section class="contact-section" id="contact" aria-labelledby="contact-title">
+  <div class="page-wrap">
+    <div class="section-marker meta"><span>{chapter} / {t.nav.contact}</span><span aria-hidden="true">↗</span></div>
+    <div class="closing-composition"><h2 class="closing-display" id="contact-title">{hasContact ? t.contact.title : t.contact.profileTitle}</h2></div>
+    <div class="contact-rows">
+      <p>{hasContact ? t.contact.lead : t.contact.profileLead}</p>
+      <div class="contact-destinations">
+        {identity.email && <a href={`mailto:${identity.email}`} aria-label={`${t.contact.email}: ${identity.email}`}>{identity.email}<span aria-hidden="true">↗</span></a>}
+        {linkedinHref && <a href={linkedinHref} target="_blank" rel="noopener noreferrer">LinkedIn<span aria-hidden="true">↗</span></a>}
+        <a href={identity.github} target="_blank" rel="noopener noreferrer">{t.contact.github}<span aria-hidden="true">↗</span></a>
+        <ResumeLinks locale={locale} />
+      </div>
+    </div>
+    <div class="footer-line meta"><span>{identity.displayName} · {t.contact.footer}</span><a href="#top">↑ {t.nav.toTop}</a></div>
+  </div>
+</section>
