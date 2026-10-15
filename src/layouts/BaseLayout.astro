@@ -1,0 +1,108 @@
+---
+import FloatingNavbar from '../components/FloatingNavbar.astro';
+import PerspectiveSwitcher from '../components/PerspectiveSwitcher.astro';
+import { content, media, paths, identity, normaliseLinkedInUrl, type Locale, type View } from '../content/site';
+import '@fontsource-variable/inter-tight/wght.css';
+import '@fontsource-variable/geist-mono/wght.css';
+import '../styles/global.css';
+import { publicImage, publicFile } from '../content/publicFiles';
+
+interface Props { locale: Locale; view: View }
+const { locale, view } = Astro.props;
+const t = content[locale];
+const isEngineering = view === 'engineering';
+const title = isEngineering ? t.meta.engineeringTitle : t.meta.presentationTitle;
+const description = isEngineering ? t.meta.engineeringDescription : t.meta.presentationDescription;
+const canonicalPath = paths(locale)[view];
+const rawDomain = import.meta.env.PUBLIC_SITE_URL?.trim();
+const siteUrl = (() => { try { const url = new URL(rawDomain || ''); return url.protocol === 'https:' && url.pathname === '/' && !url.search && !url.hash ? url.origin : null; } catch { return null; } })();
+const safeDomain = siteUrl;
+if (import.meta.env.PROD && !safeDomain) throw new Error('[Portfolio] Set PUBLIC_SITE_URL to the real HTTPS origin before building for production. Build aborted to prevent accidental noindex deployment.');
+const absolute = (pathname: string) => `${safeDomain}${pathname}`;
+const linkedinHref = normaliseLinkedInUrl(identity.linkedin);
+const socialPreview = publicImage(media.socialPreview[locale]);
+const favicon = publicFile(media.favicon, /\.svg$/i);
+const personData = {
+  '@type':'Person', name:identity.displayName, alternateName:'B4lla',
+  jobTitle:locale === 'es' ? 'Desarrollador de software full-stack' : 'Full-stack software developer',
+  description: t.meta.personSummary,
+  sameAs:[identity.github, ...(linkedinHref ? [linkedinHref] : [])],
+  hasCredential: {
+    '@type':'EducationalOccupationalCredential',
+    name: locale === 'es' ? 'Técnico Superior en Desarrollo de Aplicaciones Web' : 'Higher Technician Diploma in Web Application Development',
+    credentialCategory: locale === 'es' ? 'Formación Profesional de Grado Superior (España)' : 'Spanish higher vocational education (non-university)',
+    educationalLevel: 'EQF level 5',
+    description: locale === 'es'
+      ? 'Titulación oficial española de formación profesional superior, no universitaria y completada.'
+      : 'Completed official Spanish higher vocational qualification; not a Bachelor’s degree.',
+  },
+  knowsAbout:['Web application development','Full-stack software development','TypeScript','React','Next.js','Node.js','Vue.js','Express.js','PostgreSQL','Frontend web development','Backend web development'],
+  ...(identity.email ? {email:identity.email} : {}),
+};
+const structuredData = {
+  '@context':'https://schema.org','@type':'ProfilePage',
+  name:title, description, inLanguage:locale,
+  ...(safeDomain ? {url:absolute(canonicalPath)} : {}),
+  mainEntity:personData,
+};
+---
+<!doctype html>
+<html lang={locale} class:list={[{ 'engineering-page': isEngineering }]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content={isEngineering ? 'dark' : 'light dark'} />
+    <meta name="theme-color" content={isEngineering ? '#0a0b0c' : '#faf9f6'} />
+    <meta name="description" content={description} />
+    <meta name="author" content={identity.displayName} />
+    <script type="application/ld+json" data-portfolio-structured-data set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />
+    <title>{title}</title>
+    {safeDomain && <Fragment>
+      <link rel="canonical" href={absolute(canonicalPath)} />
+      <link rel="alternate" hreflang="en" href={absolute(paths('en')[view])} />
+      <link rel="alternate" hreflang="es" href={absolute(paths('es')[view])} />
+      <link rel="alternate" hreflang="x-default" href={absolute(paths('en')[view])} />
+      <meta property="og:url" content={absolute(canonicalPath)} />
+      {socialPreview && <Fragment>
+        <meta property="og:image" content={absolute(socialPreview.src)} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={socialPreview.alt[locale]} />
+        <meta name="twitter:image" content={absolute(socialPreview.src)} />
+      </Fragment>}
+    </Fragment>}
+    {!safeDomain && <meta name="robots" content="noindex,follow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
+    <meta name="twitter:card" content={safeDomain && socialPreview ? "summary_large_image" : "summary"} />
+    {favicon && <link rel="icon" type="image/svg+xml" href={favicon} />}
+    <script is:inline>document.documentElement.classList.add('has-js');</script>
+  </head>
+  <body data-view={view} data-locale={locale}>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <svg class="optical-filters" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="hover-type-warp" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-16" y="-16" width="480" height="240" color-interpolation-filters="sRGB">
+          <feFlood flood-color="#808080" flood-opacity="1" result="neutral-map" />
+          <feImage id="hover-displacement-map" x="0" y="0" width="480" height="240" preserveAspectRatio="none" result="local-map" />
+          <feMerge result="displacement-field"><feMergeNode in="neutral-map" /><feMergeNode in="local-map" /></feMerge>
+          <feDisplacementMap in="SourceGraphic" in2="displacement-field" scale="26" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+    <FloatingNavbar locale={locale} view={view} />
+    <PerspectiveSwitcher locale={locale} view={view} />
+    <!-- Only the current page is hydrated/rendered in steady state -->
+    <div class="layer-shell" data-layer-shell>
+      <div class="sheet-stack" data-sheet-stack>
+        <div class="paper-sheet paper-rear" data-paper-rear data-view={isEngineering ? 'presentation' : 'engineering'} aria-hidden="true" inert></div>
+        <main id="main" class="paper-sheet paper-front" data-paper-front data-view={view}><slot /></main>
+      </div>
+    </div>
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>
