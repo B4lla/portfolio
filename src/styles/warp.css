@@ -1,0 +1,22 @@
+[data-refract] {
+  position: relative;
+  isolation: isolate;
+}
+
+.optical-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+[data-refract].warp-text-active {
+  filter: url(#hover-type-warp) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-refract].warp-text-active {
+    filter: none !important;
+  }
+}
