@@ -1,13 +1,5 @@
 ---
-// Esqueleto básico
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Presentation from '../../components/Presentation.astro';
 ---
-<!doctype html>
-<html lang="es">
-  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Portfolio · Primera fase</title></head>
-  <body style="font-family:Arial,sans-serif;margin:clamp(24px,8vw,120px)">
-    <p>PERSONAL / INGENIERÍA</p>
-    <h1>Estructura inicial</h1>
-    <p>Esta página temporal confirma que Astro funciona.</p>
-    <a href="/en/">English</a>
-  </body>
-</html>
+<BaseLayout locale="es" view="presentation"><Presentation locale="es" /></BaseLayout>
