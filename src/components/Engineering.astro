@@ -1,0 +1,41 @@
+---
+import { content, paths, type Locale } from '../content/site';
+import ContactSection from './ContactSection.astro';
+import CaseScreenshot from './CaseScreenshot.astro';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const e = content[locale].engineering;
+---
+<div class="engineering-view dark-universe" data-dark-universe>
+  <section class="engineering-hero page-wrap" id="top" aria-labelledby="engineering-title">
+    <div class="chapter-head meta"><span>{e.eyebrow}</span><span>2026 / B4LLA</span></div>
+    <h1 class="engineering-display" id="engineering-title">{e.headline1}<br /><span>{e.headline2}</span></h1>
+    <div class="engineering-sub"><p>{e.lead}</p><a class="underline-link" href="#frame">{e.jump} ↘</a></div>
+  </section>
+
+  {e.cases.map(item => <section class:list={["technical-case", "page-section", `technical-case--${item.id}`]} id={item.id} aria-labelledby={`${item.id}-title`}>
+    <div class="page-wrap">
+      <div class="section-marker meta"><span>{item.eyebrow}</span><span>{item.stack}</span></div>
+      <div class="technical-heading"><h2 id={`${item.id}-title`}>{item.title}</h2><p>{item.introduction}</p></div>
+      <ol class="case-flow" aria-label={e.labels.flow}>
+        {item.steps.map((step, stepIndex) => <li><span class="meta">0{stepIndex + 1}</span><h3>{step.title}</h3><p>{step.detail}</p></li>)}
+      </ol>
+      <div class="case-detail">
+        <dl class="case-reasoning">
+          <div><dt class="meta">{e.labels.problem}</dt><dd>{item.problem}</dd></div>
+          <div><dt class="meta">{e.labels.decision}</dt><dd>{item.decision}</dd></div>
+          <div><dt class="meta">{e.labels.result}</dt><dd>{item.result}</dd></div>
+        </dl>
+        <div class="case-evidence">
+          <CaseScreenshot locale={locale} project={item.project} />
+          {item.code && <figure class="code-excerpt"><figcaption class="meta">{item.codeCaption || e.labels.evidence}</figcaption><pre><code>{item.code}</code></pre></figure>}
+          {(item.code || item.sourceLinks?.length) && <p class="case-evidence-description">{item.evidence}</p>}
+          {item.sourceLinks && <div class="case-source-links">{item.sourceLinks.map(link => <a class="underline-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}
+          {item.backLink && <div class="case-source-links"><a class="underline-link" href={`${paths(locale).presentation}#project-frame`}>{item.backLink} →</a></div>}
+          <aside class="case-limit"><h3 class="meta">{e.labels.limit}</h3><p>{item.limit}</p></aside>
+        </div>
+      </div>
+    </div>
+  </section>)}
+  <ContactSection locale={locale} chapter="04" />
+</div>
