@@ -1,0 +1,81 @@
+/* Keep the sticky stage viewport-height so the shadow never exposes the
+   container underneath. The extra 37svh supplies its compact scroll journey. */
+.threshold{
+  height:137svh;
+  position:relative;
+  background:var(--night);
+}
+.threshold-stage{
+  position:sticky;
+  top:0;
+  height:100svh;
+  width:100%;
+  overflow:clip;
+  isolation:isolate;
+  background:var(--paper);
+}
+.shadow-wash{
+  position:absolute;
+  top:0;
+  left:-12%;
+  width:124%;
+  height:285%;
+  z-index:1;
+  pointer-events:none;
+  transform:translate3d(0,var(--shadow-y,105svh),0);
+  will-change:transform;
+  background:linear-gradient(180deg,
+    transparent 0%,
+    rgba(3,3,3,.025) 7%,
+    rgba(3,3,3,.12) 14%,
+    rgba(3,3,3,.35) 23%,
+    rgba(3,3,3,.68) 33%,
+    rgba(3,3,3,.93) 43%,
+    var(--night) 52%,
+    var(--night) 100%);
+}
+.shadow-wash::before,
+.shadow-wash::after{
+  content:"";
+  position:absolute;
+  left:-3%;
+  width:106%;
+  top:-9%;
+  height:55%;
+  pointer-events:none;
+}
+.shadow-wash::before{
+  background:
+    radial-gradient(ellipse 44% 74% at 19% 82%,rgba(3,3,3,.43),transparent 96%),
+    radial-gradient(ellipse 62% 72% at 79% 88%,rgba(3,3,3,.33),transparent 97%);
+  filter:blur(clamp(26px,4vw,70px));
+}
+.shadow-wash::after{
+  transform:translateY(-5%);
+  background:
+    radial-gradient(ellipse 32% 40% at 42% 97%,rgba(3,3,3,.29),transparent 96%),
+    radial-gradient(ellipse 39% 45% at 94% 91%,rgba(3,3,3,.23),transparent 96%);
+  filter:blur(clamp(24px,3.4vw,58px));
+}
+.threshold-words{z-index:2;color:#fff;mix-blend-mode:difference}
+@media(max-width:700px){
+  .shadow-wash{height:290%}
+  .shadow-wash::before,.shadow-wash::after{filter:blur(27px)}
+  .threshold-words>span:first-child{margin-bottom:20px}
+  .threshold-foot{margin-top:26px}
+}
+@media(prefers-reduced-motion:reduce){
+  /* Still shows a readable transition without a moving/animated surface. */
+  .threshold-stage{background:linear-gradient(180deg,var(--paper),#91918f 45%,var(--night) 100%)}
+  .shadow-wash{display:none;will-change:auto}
+}
+
+.threshold-words{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;pointer-events:none;}
+.threshold-words>span:first-child{margin-bottom:clamp(20px,4vw,48px)}
+.threshold-words h2{font-size:clamp(58px,8vw,125px);line-height:1.02;letter-spacing:-.04em;margin:0}
+.threshold-words h2 span{padding-left:clamp(20px,12vw,185px)}
+.threshold-foot{align-self:flex-end;margin-top:clamp(24px,5vw,60px)}
+/* Longer, evidence-led copy must wrap without clipping the moving shadow stage. */
+.threshold-words h2{font-size:clamp(43px,5.5vw,96px);max-width:1100px;text-wrap:balance;overflow-wrap:normal}
+.threshold-words h2 span{display:block;padding-left:clamp(0px,4vw,58px);max-width:100%}
+@media(max-width:740px){.threshold-words h2{font-size:clamp(35px,7.8vw,60px)}.threshold-words h2 span{padding-left:0}}
