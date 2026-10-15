@@ -1,7 +1,6 @@
 import { initPointerWarp } from './warp';
 
-/** Static Astro documents, with a physical two-sheet exchange only for same-locale perspective changes.
- * Cross-locale links deliberately use native document navigation, avoiding a fragile custom i18n router. */
+// Static Astro documents, voiding a fragile custom i18n router
 type View = 'presentation' | 'engineering';
 type Destination = { url: URL; fromHistory: boolean; scrollY?: number };
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -12,7 +11,7 @@ let teardown: () => void = () => {};
 let navigating = false;
 let queued: Destination | null = null;
 
-/** Keep anchor destinations below both mobile navigation rows. */
+// Keep anchor destinations below both mobile navigation rows
 function anchorOffset(): number {
   const headerBottom = document.querySelector<HTMLElement>('[data-site-header]')?.getBoundingClientRect().bottom || 72;
   const selectorBottom = innerWidth <= 740
@@ -168,10 +167,7 @@ function syncDocument(doc: Document): void {
   if (skip) document.querySelector('.skip-link')!.textContent = skip.textContent;
 }
 
-/** Attach non-interactive navigation copies to their own paper sheets, not
- * separate fixed animation planes. Each navbar now moves with the SAME CSS
- * transform and stacking order as the sheet it belongs to; no seam is possible
- * between the page and its header while the perspective changes. */
+// Attach non-interactive navigation copies to their own paper sheets, not
 function showNavigationTransition(doc: Document, front: HTMLElement, rear: HTMLElement, incomingDark: boolean): () => void {
   const copies: HTMLElement[] = [];
   const sheets = [front, rear];
@@ -204,7 +200,7 @@ function showNavigationTransition(doc: Document, front: HTMLElement, rear: HTMLE
   };
 }
 
-/** Positions content without smooth scrolling; callable on completed, atomic document updates. */
+// Positions content without smooth scrolling
 function jump(target: string | null, restoredScroll?: number): void {
   const oldBehavior = document.documentElement.style.scrollBehavior;
   document.documentElement.style.scrollBehavior = 'auto';
@@ -218,10 +214,7 @@ function jump(target: string | null, restoredScroll?: number): void {
   document.documentElement.style.scrollBehavior = oldBehavior;
 }
 
-/** Calculate the destination viewport BEFORE the entering sheet becomes visible.
- * The preview has its own visual offset, so the outgoing document never changes scroll
- * during the depth crossing. When its nodes become the front, the offset and the
- * document scroll are changed in the same task (one paint), preserving the viewport. */
+// Calculate the destination viewport BEFORE the entering sheet becomes visible.
 function prepareIncoming(rear: HTMLElement, doc: Document, target: string | null, restored?: number) {
   const source = doc.querySelector<HTMLElement>('[data-paper-front]')!;
   const viewport = document.createElement('div');
@@ -236,7 +229,8 @@ function prepareIncoming(rear: HTMLElement, doc: Document, target: string | null
   const desiredY = Math.max(0, Math.min(available, requiredY));
   const followScroll = () => viewport.style.setProperty('--preview-shift', `${scrollY - desiredY}px`);
   followScroll();
-  // Keep the preview aligned even if the visitor scrolls while the paper is moving.
+
+  // Keep the preview aligned even if the visitor scrolls while the paper is moving
   addEventListener('scroll', followScroll, { passive:true });
   return {
     viewport, desiredY,
@@ -269,7 +263,8 @@ async function swap(destination: Destination): Promise<void> {
   let disposeNavigation = () => {};
   const outgoing = (document.body.dataset.view || 'presentation') as View;
   const incoming = routeInfo(url.pathname)?.view || 'presentation';
-  // Perspective tabs introduce the other page; project links carry an explicit case anchor.
+
+  // Perspective tabs introduce the other page
   const semantic = url.hash ? decodeURIComponent(url.hash.slice(1)) : fromHistory ? null : 'top';
   try {
     const doc = await retrieve(url);
@@ -298,8 +293,8 @@ async function swap(destination: Destination): Promise<void> {
     }
     stack.dataset.phase = 'settling';
     document.body.dataset.transition = 'settling';
+
     // Synchronously change both visual alignment and the document's scroll.
-    // A browser paints after this task, not between the DOM replacement and scroll.
     disposePreview(); disposePreview = () => {};
     front.replaceChildren(...Array.from(preview.viewport.childNodes));
     front.dataset.view = incoming;
@@ -313,14 +308,13 @@ async function swap(destination: Destination): Promise<void> {
       history.pushState({ scrollY: null }, '', url.pathname + url.search + url.hash);
     }
     document.body.dataset.path = url.pathname;
-    // The entering sheet already displayed exactly this section during the crossing.
+
     const previousBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';
     window.scrollTo({ top: preview.desiredY, behavior: 'instant' });
     document.documentElement.style.scrollBehavior = previousBehavior;
     mount();
-    // The old active link has been replaced. Move keyboard/screen-reader focus
-    // into the new page without changing the preserved scroll position.
+
     if (!fromHistory) {
       const section = semantic ? document.getElementById(semantic) : null;
       const destinationHeading = section?.querySelector<HTMLElement>('h1, h2')
@@ -355,7 +349,7 @@ function routeClicks(event: MouseEvent): void {
   if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
   const url = new URL(anchor.href);
   if (url.origin !== location.origin) return;
-  // Smooth return to the top without the native hash jump. Follow reduced motion.
+  // Smooth return to the top without the native hash jump.
   if (!navigating && url.pathname === location.pathname && url.hash === '#top') {
     event.preventDefault();
     if (location.hash !== '#top') {
