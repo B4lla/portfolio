@@ -18,16 +18,18 @@ export const identity = {
   initials: 'AB',
   github: 'https://github.com/B4lla',
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(publicEmail) ? publicEmail : '',
-  linkedin: 'www.linkedin.com/in/alvaro-ballabriga-ortega', 
-  resume: { es: '/cv/cv-es.pdf', en: '/cv/cv-en.pdf' } as Record<Locale, string>, // Visible only if the PDF exists
+  linkedin: 'www.linkedin.com/in/alvaro-ballabriga-ortega',
+  resume: { es: '/cv/cv-es.pdf', en: '/cv/cv-en.pdf' } as Record<Locale, string>, 
 };
+
+// Links 
 export const sources = {
   eufunding: 'https://github.com/B4lla/euFunding',
   eufundingApi: 'https://github.com/B4lla/euFunding/blob/main/api/calls.js',
   eufundingUI: 'https://github.com/B4lla/euFunding/blob/main/src/main.js',
   eufundingCompanies: 'https://github.com/B4lla/euFunding/blob/main/api/companies.js',
   eufundingInterest: 'https://github.com/B4lla/euFunding/blob/main/api/interest.js',
-  ds2: 'https://www.dataspace2.eu/',
+  ds2: 'https://www.dataspace2.eu/', 
   notes: 'https://github.com/B4lla/SecureNotes',
   notesApi: 'https://github.com/B4lla/SecureNotes/blob/main/backend/routes/notes.js',
   notesCrypto: 'https://github.com/B4lla/SecureNotes/blob/main/frontend/src/utils/crypto.js',
@@ -72,7 +74,6 @@ export const media: {
           caption: { es: 'Frame · resultado exportado', en: 'Frame · exported output' },
           aspectRatio: '16 / 10', objectFit: 'contain',
         },
-        // Add further genuine screenshots here. No changes to components needed.
       ],
     },
     eufunding: {
@@ -311,8 +312,178 @@ const es: Copy = {
   },
 };
 
-
-const en: Copy = es;
+const en: Copy = {
+  skip: 'Skip to content',
+  nav: { presentation: 'Personal', engineering: 'Engineering', about: 'About', experience: 'Experience',
+    projects: 'Projects', education: 'Education', approach: 'How I work', contact: 'Contact', toTop: 'Back to top', switchDimension: 'Switch perspective', switchLanguage: 'Select language' },
+  meta: {
+    presentationTitle: 'Álvaro Ballabriga | Full-stack Software Developer',
+    presentationDescription: 'Álvaro Ballabriga is a full-stack software developer working with web applications, APIs and data. Studying AI and Data Engineering at Tajamar Tech, with international Erasmus+ experience.',
+    engineeringTitle: 'Software engineering | Álvaro Ballabriga',
+    engineeringDescription: 'Technical case studies by Álvaro Ballabriga: Frame visual editor, European funding data integration in euFunding, and data authorization in SecureNotes. Decisions, implementation and limitations.',
+    personSummary: 'Álvaro Ballabriga is a full-stack software developer with international web development internship experience at Transilvania IT Cluster (Erasmus+, March-May 2026), hardware support at E-Gaming (2025) and Level 1 IT support at Anadat Technology (2024). He holds Spain’s official Higher Technician Diploma in Web Application Development (EQF 5, non-university, not a Bachelor’s degree) and is studying a private, non-university AI and Data Engineering programme at Tajamar Tech. He builds Frame, a visual web editor undergoing stabilization, and public projects euFunding and SecureNotes.',
+  },
+  hero: {
+    byline: 'SOFTWARE DEVELOPMENT / FULL-STACK',
+    role: 'Full-stack software developer.',
+    lead: 'I build web applications connecting interfaces, services and data. I am now extending that foundation through AI and Data Engineering training.',
+    technologiesLabel: 'Technologies', technologies: 'TypeScript · React · Next.js · Node.js · PostgreSQL',
+    about: 'About me', projects: 'Explore my work', contact: 'Contact',
+  },
+  resume: { label: 'Curriculum vitae', spanish: 'CV in Spanish', english: 'CV in English' },
+  about: {
+    eyebrow: '01 / ABOUT', noteLabel: 'What interests me', introduction: 'I am interested in what happens behind each application.',
+    paragraphs: [
+      'I started developing web applications because I wanted to build things people could use. I like understanding the full path, from an interaction on screen to the logic and data that make it possible.',
+      'I enjoy working on products that connect multiple parts, require practical decisions and need real-world debugging. I am now studying AI and Data Engineering to deepen my understanding of data-driven systems.',
+    ],
+    notes: [
+      { index: '01', title: 'Product and interface.', detail: 'A tool should be clear to use, not only technically sound.' },
+      { index: '02', title: 'Logic and data.', detail: 'Understanding how frontends, APIs and persistence connect.' },
+      { index: '03', title: 'Learning by building.', detail: 'Working on real projects, revisiting bugs and testing decisions.' },
+    ],
+  },
+  thinking: {
+    eyebrow: '05 / HOW I WORK', titleA: 'How I', titleB: 'work.',
+    lead: 'From a specific problem to something I can verify works.',
+    extra: 'I prefer incremental changes that can be reviewed, and identifying the limits of a solution before treating it as finished.',
+    cards: [
+      { title: 'Define the problem.', body: 'Identify expected behavior, constraints and dependencies before making changes.' },
+      { title: 'Build and verify.', body: 'Work in manageable increments and check the result against real use cases.' },
+      { title: 'Fix and communicate.', body: 'Document issues and decisions; share relevant changes when other people or systems are affected.' },
+    ],
+    link: 'Explore engineering decisions',
+  },
+  experience: {
+    eyebrow: '02 / EXPERIENCE', title: 'Experience in development and technical environments.',
+    intro: 'Web development in an international team, plus earlier experience with support and infrastructure.',
+    entries: [
+      {
+        organisation: 'Transilvania IT Cluster', role: 'Web Development Intern · Erasmus+',
+        duration: 'Mar 2026 — May 2026 · 3 months', location: 'Cluj-Napoca, Romania · On-site · Full-time',
+        body: 'Web development during an Erasmus+ internship, collaborating in an international technical setting.', featured: true,
+        highlights: [
+          'Designed and developed a responsive webpage for a municipal dataspace initiative, working with external development partners.',
+          'Joined agile meetings with teams in Spain, Estonia, Greece and France to coordinate work related to a dataspace connector.',
+          'Fixed issues in a WordPress/PHP environment and contributed to work on migrating the project towards Next.js.',
+          'Developed euFunding, an application for searching, filtering and exporting European funding calls using an external API.',
+        ],
+        links: [{ label: 'euFunding source code', url: sources.eufunding }, { label: 'DS2 project context', url: sources.ds2 }],
+      },
+      {
+        organisation: 'E-Gaming', role: 'Hardware & IT Support Intern',
+        duration: '2025 · approximately 3 weeks', location: 'Coslada, Madrid, Spain · On-site',
+        body: 'Basic equipment and peripheral troubleshooting and maintenance; incident logging, escalation and support with network checks.',
+      },
+      {
+        organisation: 'Anadat Technology', role: 'Level 1 IT Support Intern',
+        duration: 'Apr 2024 — Jun 2024 · 3 months', location: 'Madrid, Spain · Remote',
+        body: 'Monitored services, triaged alerts, logged tickets, ran initial remote checks and escalated incidents according to documented procedures.',
+      },
+    ],
+  },
+  education: {
+    eyebrow: '04 / EDUCATION', title: 'A software development foundation, with further study underway.',
+    entries: [
+      { name: 'Higher Technician Diploma in Web Application Development (DAW)', status: 'Completed · Official Spanish higher vocational qualification · EQF 5',
+        body: 'Higher vocational studies in programming, web applications and databases; not a Bachelor’s degree.' },
+      { name: 'Artificial Intelligence and Data Engineering · Tajamar Tech',
+        status: 'In progress · Private, non-university programme at Tajamar Tech',
+        body: 'Further training focused on Artificial Intelligence and Data Engineering, building on a software development foundation.' },
+    ],
+  },
+  work: {
+    eyebrow: '03 / SELECTED WORK', titleA: 'Selected', titleB: 'work.',
+    lead: 'Three projects at different scales: an independent product, a data tool and a more focused web application.',
+    focus: 'What it demonstrates', details: 'View technical case',
+    projects: [
+      { id: 'frame', name: 'Frame', category: 'VISUAL WEB EDITOR / INDEPENDENT PRODUCT',
+        stack: 'TYPESCRIPT · REACT · NEXT.JS · POSTGRESQL · CLOUDFLARE',
+        description: 'Frame is my main independent project: a visual web editor for creating responsive pages and exporting them as code. The goal is to make a visually built design useful beyond the editor itself.',
+        descriptionExtra: 'I have built visual editing, responsive views and code export. I am currently working on stabilizing and improving the editor.',
+        focus: 'The work connecting the document model, canvas and generated code.',
+        status: 'Private project · Core features implemented · Stabilization phase', linkLabel: 'View technical case', caseAnchor: 'frame' },
+      { id: 'eufunding', name: 'euFunding', category: 'DATA DASHBOARD / TRANSILVANIA IT CLUSTER INTERNSHIP',
+        stack: 'JAVASCRIPT · VITE · EXPRESS · POSTGRESQL · EUROPEAN COMMISSION API',
+        description: 'During my internship, I developed a web application for exploring European Union funding opportunities. It retrieves calls from a European Commission API and provides searching, filtering, exporting and features for working with companies and interest levels.',
+        descriptionExtra: 'My contribution covered data integration, application APIs and presenting results. This was an internship project, not the entire consortium’s work.',
+        focus: 'External APIs, record processing, filtering and persistence.',
+        status: 'Internship project · Public source', link: sources.eufunding, linkLabel: 'View repository', caseAnchor: 'eufunding' },
+      { id: 'notes', name: 'SecureNotes', category: 'WEB APPLICATION / PERSONAL PROJECT',
+        stack: 'VUE · EXPRESS · POSTGRESQL',
+        description: 'A notes application with a Vue frontend, an Express API and PostgreSQL. It includes browser-side content encryption and user-scoped data access in the API.',
+        descriptionExtra: 'A smaller example of separating client-side encryption from server-side access control.',
+        focus: 'Clear responsibility boundaries between client, server and database.',
+        status: 'Personal project · Public source', link: sources.notes, linkLabel: 'View repository', caseAnchor: 'systems' },
+    ],
+  },
+  transition: { title1: 'Is only', title2: 'part of the story.', sub: 'THE DECISIONS BEHIND IT' },
+  contact: {
+    title: 'Let’s talk about software, data and ideas.', profileTitle: 'Let’s talk about software, data and ideas.',
+    lead: 'If my background matches your project or you would like to learn more about the decisions behind my work, you can reach out or explore my public repositories.',
+    profileLead: 'If my background matches your project or you would like to learn more about the decisions behind my work, you can explore my public repositories.',
+    github: 'GitHub', email: 'Send email', footer: 'Full-stack software development',
+  },
+  engineering: {
+    eyebrow: 'ENGINEERING / SYSTEMS AND DECISIONS', headline1: 'Behind', headline2: 'the interface.',
+    lead: 'Two main cases on visual editing and data integration. A smaller third case examines the distinction between encryption and authorization.',
+    jump: 'Explore the cases',
+    labels: { problem: 'The problem', decision: 'Approach / decision', result: 'Scope of work', limit: 'Limitations & trade-offs', flow: 'Technical flow', source: 'Explore the code', evidence: 'Available evidence' },
+    cases: [
+      { id: 'frame', project: 'frame', name: 'Frame', eyebrow: '01 / FRAME · VISUAL EDITOR',
+        stack: 'EDITOR · DOCUMENT · EXPORT', title: 'One document, three representations.',
+        introduction: 'Frame connects an editable component tree, its canvas representation and the exported code. Changes in one layer should not unexpectedly alter the result in another.',
+        problem: 'Resizing elements or moving them between containers can produce unexpected shifts and size changes. The canvas and exported code can also interpret the same design differently.',
+        decision: 'Separate the document node tree and its state from canvas rendering and code generation. Compare dimensions, positions and responsive behavior in both outputs.',
+        result: 'The editor connects node manipulation, responsive views and exportable page generation. I am verifying consistency between the document model, canvas and generated output.',
+        limit: 'Consistency across views and exported output still needs validation. I do not consider these issues resolved while inconsistent cases remain.',
+        steps: [
+          { title: 'Editable document', detail: 'Component node tree and properties that define the page structure.' },
+          { title: 'Canvas and responsive', detail: 'Interaction, dimensions and views that reflect the editable state.' },
+          { title: 'Code generation', detail: 'Turn the document into an exportable page and compare it against the canvas.' },
+        ],
+        evidence: 'Frame is private code; this case focuses on the document model, transformations and consistency across representations.',
+        backLink: 'View Frame in selected work',
+      },
+      { id: 'eufunding', project: 'eufunding', name: 'euFunding', eyebrow: '02 / EUFUNDING · DATA AND WEB APPLICATION',
+        stack: 'EUROPEAN API · EXPRESS · POSTGRESQL', title: 'From an external data source to a searchable tool.',
+        introduction: 'The dashboard collects European funding calls and provides ways to examine, filter and export them.',
+        problem: 'External sources can provide substantial and heterogeneous data. A usable application needs to retrieve, normalize and present that data with clear ways to find relevant records.',
+        decision: 'Query the source via a Node/Express API and expose the results through a searchable, filterable, paginated interface. Use PostgreSQL to store company records and levels of interest.',
+        result: 'The application integrates an external calls API, supports filtering and CSV/Excel export, and provides persistence for companies and interests. Public source links appear below.',
+        limit: 'Word and regular-expression-based classification is a rule-based approximation, not a machine learning model. Category quality depends on those rules and on the source data.',
+        steps: [
+          { title: 'External API', detail: 'Retrieve European funding calls.' },
+          { title: 'Data processing', detail: 'Normalize and categorize relevant fields.' },
+          { title: 'Exploration', detail: 'Provide search, filtering, exports and selective persistence.' },
+        ],
+        evidence: 'Public source: query routes, UI and persistence can be inspected in the linked files. Classification uses rules rather than an AI model.',
+        sourceLinks: [
+          { label: 'Repository', url: sources.eufunding },
+          { label: 'api/calls.js', url: sources.eufundingApi },
+          { label: 'src/main.js', url: sources.eufundingUI },
+          { label: 'api/companies.js', url: sources.eufundingCompanies },
+          { label: 'api/interest.js', url: sources.eufundingInterest },
+        ],
+      },
+      { id: 'systems', project: 'notes', name: 'SecureNotes', eyebrow: '03 / SECURENOTES · API AND SECURITY',
+        stack: 'VUE · EXPRESS · POSTGRESQL', title: 'Encrypting data does not replace access authorization.',
+        introduction: 'A notes application needs to distinguish between protecting content and restricting which records each user can access.',
+        problem: 'Encryption and authorization operate at different layers. Content can be encrypted while an authorization flaw still exposes another user’s records.',
+        decision: 'Keep content encryption in the client and scope API queries to the authenticated user.',
+        result: 'Read, update and delete operations use the user identifier to restrict which records they operate on.',
+        limit: 'This is a personal project, not an audited security product. Key management and validation would need further review before recommending it for sensitive information.',
+        steps: [
+          { title: 'Client', detail: 'Encrypt the note content in the browser.' },
+          { title: 'API authentication', detail: 'Identify the user and scope their requests.' },
+          { title: 'PostgreSQL', detail: 'Query records belonging to that user.' },
+        ],
+        evidence: 'Smaller case: public repository with notes routes and client encryption logic. A learning project, not a security-audited system.',
+        sourceLinks: [{ label: 'Explore the code', url: sources.notesApi }, { label: 'Client encryption utility', url: sources.notesCrypto }],
+      },
+    ],
+  },
+};
 
 export const content: Record<Locale, Copy> = { en, es };
 export const paths = (locale: Locale) => ({ presentation: `/${locale}/`, engineering: `/${locale}/engineering/` });
