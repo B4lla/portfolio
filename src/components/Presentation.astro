@@ -1,0 +1,130 @@
+---
+import { content, identity, media, paths, normaliseLinkedInUrl, type Locale, type ProjectId } from '../content/site';
+import ResumeLinks from './ResumeLinks.astro';
+import ProjectVisual from './ProjectVisual.astro';
+import ContactSection from './ContactSection.astro';
+import { publicImage, projectImages } from '../content/publicFiles';
+import PublicImage from './PublicImage.astro';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = content[locale];
+const base = paths(locale);
+const linkedinHref = normaliseLinkedInUrl(identity.linkedin);
+const [first, ...last] = identity.displayName.trim().split(/\s+/);
+const portrait = publicImage(media.profile);
+const imagesByProject = new Map(t.work.projects.map(project => [project.id, projectImages(project.id)] as const));
+const projectHasMedia = (id: ProjectId) => Boolean(imagesByProject.get(id)?.length);
+---
+<div class="presentation-view">
+  <section class:list={["hero", "light-scene", { "hero--with-portrait": Boolean(portrait) }]} id="top" aria-labelledby="hero-title">
+    <div class="page-wrap hero-content">
+      <p class="hero-overline meta"><span>PORTFOLIO / 2026</span><span>{t.hero.byline}</span></p>
+      <h1 class="hero-name" id="hero-title"><span class="refract" data-refract>{first}</span><span class="refract" data-refract>{last.join(' ')}</span></h1>
+      <div class="hero-bottom">
+        <div class="hero-summary">
+          <p class="hero-role">{t.hero.role}</p>
+          <p class="hero-description">{t.hero.lead}</p>
+          <p class="hero-technologies"><span class="meta">{t.hero.technologiesLabel}</span><span>{t.hero.technologies}</span></p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#work">{t.hero.projects}<span aria-hidden="true">↘</span></a>
+            <a class="underline-link" href="#about">{t.hero.about} ↘</a>
+          </div>
+          <ResumeLinks locale={locale} variant="hero" />
+        </div>
+        <div class="hero-aside">
+          {portrait && <PublicImage image={portrait} locale={locale} priority className="hero-portrait" />}
+          <div class="hero-aside-links">
+            <a class="underline-link" href="#contact">{t.hero.contact} ↗</a>
+            <a class="underline-link" href={identity.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            {linkedinHref && <a class="underline-link" href={linkedinHref} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section light-scene page-section" id="about" aria-labelledby="about-title">
+    <div class="page-wrap">
+      <div class="section-marker meta"><span>{t.about.eyebrow}</span><span aria-hidden="true">→</span></div>
+      <div class="about-composition">
+        <div><h2 class="statement" id="about-title">{t.about.introduction}</h2>
+          <div class="body-paragraphs">{t.about.paragraphs.map(paragraph => <p class="supporting-copy">{paragraph}</p>)}</div>
+        </div>
+        <aside class="about-index" aria-label={t.about.noteLabel}>
+          <p class="meta about-index-heading">{t.about.noteLabel}</p>
+          {t.about.notes.map(note => <div class="index-line"><span class="meta">{note.index}</span><div><h3>{note.title}</h3><p>{note.detail}</p></div></div>)}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience-section light-scene page-section" id="experience" aria-labelledby="experience-title">
+    <div class="page-wrap">
+      <div class="section-marker meta"><span>{t.experience.eyebrow}</span><span aria-hidden="true">→</span></div>
+      <div class="editorial-section-head"><h2 class="statement" id="experience-title">{t.experience.title}</h2><p>{t.experience.intro}</p></div>
+      <div class="timeline-list">
+        {t.experience.entries.map((entry, index) => <article class:list={["timeline-entry", { "timeline-entry--featured": entry.featured }]}>
+          <span class="meta entry-index">0{index + 1}</span>
+          <div><h3>{entry.organisation}</h3><p class="entry-role">{entry.role}</p><p class="entry-duration meta">{entry.duration}</p><p class="entry-location">{entry.location}</p></div>
+          <div><p class="entry-body">{entry.body}</p>{entry.highlights && <ul class="entry-highlights">{entry.highlights.map(highlight => <li>{highlight}</li>)}</ul>}{entry.links && <div class="entry-links">{entry.links.map(link => <a class="underline-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}</div>
+        </article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="work-section light-scene page-section" id="work" aria-labelledby="work-title">
+    <div class="page-wrap">
+      <div class="section-marker meta"><span>{t.work.eyebrow}</span><span aria-hidden="true">↘</span></div>
+      <div class="work-heading"><h2 class="medium-display" id="work-title">{t.work.titleA}<br />{t.work.titleB}</h2><p>{t.work.lead}</p></div>
+      <div class="project-list">
+        {t.work.projects.map((project, index) => <article class:list={['project', { 'project--featured': project.id === 'frame', 'project--secondary': project.id === 'notes' }]} aria-labelledby={`project-${project.id}`}>
+          <div class="work-overline meta"><span>0{index + 1} / {project.category}</span><span>{project.status}</span></div>
+          <div class:list={["project-composition", { "project-composition--text-only": !projectHasMedia(project.id) }]} >
+            <div class="project-copy">
+              <h3 id={`project-${project.id}`}>{project.name}</h3>
+              <p class="meta project-stack">{project.stack}</p>
+              <p class="project-description">{project.description}</p>
+              <p class="project-extra">{project.descriptionExtra}</p>
+              <div class="project-focus"><span class="meta">{t.work.focus}</span><p>{project.focus}</p></div>
+              <div class="project-links">
+                <a class="underline-link" href={project.link || `${base.engineering}#${project.caseAnchor}`} target={project.link ? '_blank' : undefined} rel={project.link ? 'noopener noreferrer' : undefined}>{project.linkLabel} ↗</a>
+                {project.link && <a class="underline-link" href={`${base.engineering}#${project.caseAnchor}`}>{t.work.details} ↗</a>}
+              </div>
+            </div>
+            {projectHasMedia(project.id) && <ProjectVisual locale={locale} project={project.id} images={imagesByProject.get(project.id)} />}
+          </div>
+        </article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="education-section light-scene page-section" id="education" aria-labelledby="education-title">
+    <div class="page-wrap">
+      <div class="section-marker meta"><span>{t.education.eyebrow}</span><span aria-hidden="true">→</span></div>
+      <h2 class="statement" id="education-title">{t.education.title}</h2>
+      <div class="education-grid">{t.education.entries.map((entry, index) => <article class="education-entry">
+        <span class="meta">0{index + 1}</span><h3>{entry.name}</h3><p class="education-status meta">{entry.status}</p><p>{entry.body}</p>
+      </article>)}</div>
+    </div>
+  </section>
+
+  <section class="threshold" data-shadow-threshold aria-labelledby="transition-title">
+    <div class="threshold-stage">
+      <div class="shadow-wash" aria-hidden="true"></div>
+      <div class="threshold-words page-wrap"><span class="meta">{locale === 'es' ? 'EL RESULTADO VISIBLE' : 'THE VISIBLE RESULT'}</span><h2 id="transition-title">{t.transition.title1}<br /><span>{t.transition.title2}</span></h2><span class="meta threshold-foot">{t.transition.sub}</span></div>
+    </div>
+  </section>
+
+  <div class="dark-universe" data-dark-universe>
+    <section class="thinking-section page-section" id="thinking" aria-labelledby="thinking-title">
+      <div class="page-wrap">
+        <div class="section-marker meta"><span>{t.thinking.eyebrow}</span><span aria-hidden="true">→</span></div>
+        <div class="thinking-head"><h2 class="dark-display" id="thinking-title">{t.thinking.titleA}<br /><span>{t.thinking.titleB}</span></h2><p class="dark-lead">{t.thinking.lead}</p></div>
+        <p class="thinking-extra">{t.thinking.extra}</p>
+        <div class="thinking-list">{t.thinking.cards.map((item, index) => <article class="thinking-row"><span class="meta">0{index + 1}</span><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+        <a class="approach-link underline-link" href={base.engineering}>{t.thinking.link} ↗</a>
+      </div>
+    </section>
+    <ContactSection locale={locale} chapter="06" />
+  </div>
+</div>
