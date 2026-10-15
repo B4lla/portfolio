@@ -1,0 +1,25 @@
+@keyframes front-to-rear{
+  0%{transform:translate3d(0,0,0)}
+  43%{transform:translate3d(-17px,-12px,0)}
+  61%{transform:translate3d(8px,6px,0)}
+  100%{transform:translate3d(var(--sheet-x),var(--sheet-y),0)}
+}
+
+@keyframes rear-to-front{
+  0%{transform:translate3d(var(--sheet-x),var(--sheet-y),0)}
+  43%{transform:translate3d(28px,23px,0)}
+  61%{transform:translate3d(7px,6px,0)}
+  100%{transform:translate3d(0,0,0)}
+}
+
+.sheet-stack.is-changing .paper-front {
+    animation:front-to-rear 640ms var(--ease-paper) both
+}
+
+.sheet-stack.is-changing .paper-rear{
+    animation:rear-to-front 640ms var(--ease-paper) both
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .sheet-stack.is-changing .paper-sheet{animation:none!important}
+}
