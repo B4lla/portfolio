@@ -1,0 +1,18 @@
+---
+import { content, identity, type Locale } from '../content/site';
+import { publicPdf } from '../content/publicFiles';
+interface Props { locale: Locale; variant?: 'hero' | 'contact' }
+const { locale, variant = 'contact' } = Astro.props;
+const t = content[locale];
+const resumePath = (lang: Locale): string => publicPdf(identity.resume[lang]) || '';
+const variants: { lang: Locale; label: string; href: string }[] = [
+  { lang: 'es', label: t.resume.spanish, href: resumePath('es') },
+  { lang: 'en', label: t.resume.english, href: resumePath('en') },
+];
+const visible = variants.filter(item => item.href && (variant !== 'hero' || item.lang === locale));
+---
+{visible.length > 0 && <div class:list={['resume-links', `resume-links--${variant}`]} role="group" aria-label={t.resume.label}>
+  <div class="resume-options">
+    {visible.map(item => <a href={item.href} download class="resume-option">{item.label} <span aria-hidden="true">↓</span></a>)}
+  </div>
+</div>}
