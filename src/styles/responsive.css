@@ -1,0 +1,92 @@
+/* Desktop-first responsive design */
+@media(max-width:1000px){
+ .about-composition,.work-heading,.technical-heading{grid-template-columns:1fr;gap:30px}
+ .work-heading>p{max-width:520px}
+ .project-composition{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px}
+ .thinking-row{grid-template-columns:30px minmax(0,1fr)}
+ .thinking-row p{grid-column:2}
+}
+@media(max-width:740px){
+ :root{--page-x:22px}
+ html{scroll-padding-top:160px}
+ .layer-shell{--sheet-x:3px;--sheet-y:5px}
+ .sheet-stack.is-changing .paper-front{box-shadow:1px 2px 3px rgba(0,0,0,.12)}
+ .page-section{padding-block:65px}
+ .section-marker{margin-bottom:40px;gap:16px;align-items:start}
+ .hero{min-height:0}
+ .hero-content{min-height:0;padding-top:175px;padding-bottom:60px;gap:35px}
+ .hero-overline{font-size:9px}
+ .hero-overline span:last-child{text-align:right}
+ .hero-name{font-size:clamp(52px,12.5vw,90px);line-height:1.03;margin:15px 0 10px;letter-spacing:-.04em}
+ .hero-name>span+span{padding-left:0}
+ .hero-bottom{flex-direction:column;align-items:start;gap:24px}
+ .hero-summary{gap:19px}
+ .hero-role{font-size:25px;max-width:480px}
+ .hero-description{font-size:18px;max-width:470px}
+ .hero-actions{gap:14px 23px}
+ .medium-display{font-size:clamp(40px,9.7vw,70px)}
+ .work-heading{gap:26px;margin-bottom:40px}
+ .work-heading>p{font-size:17px}
+ .project{padding-block:22px 45px}
+ .work-overline{flex-direction:column;gap:9px;font-size:10px}
+ .project-composition{grid-template-columns:1fr;gap:28px;padding-top:28px}
+ .project-copy h3{font-size:clamp(33px,8.5vw,55px)}
+ .project-stack{font-size:10px;margin-bottom:20px}
+ .project-description{font-size:18px}
+ .project-focus p{font-size:15px}
+ .project-links{gap:9px 22px}
+ .project-links .underline-link{font-size:13px}
+ .about-composition,.thinking-head,.contact-rows,.case-detail{grid-template-columns:1fr;gap:35px}
+ .statement{font-size:clamp(43px,10.5vw,72px);margin-bottom:28px}
+ .supporting-copy{font-size:18px}
+ .index-line p{font-size:15px}
+ .dark-display{font-size:clamp(52px,12vw,85px)}
+ .dark-display span{margin-left:10px}
+ .thinking-head{margin-bottom:35px}
+ .thinking-row{gap:15px;padding:28px 0}
+ .thinking-row h3{font-size:29px}
+ .thinking-row p{font-size:16px}
+ .threshold{height:135svh}
+ .threshold-words h2{font-size:clamp(41px,10vw,70px);letter-spacing:-.035em}
+ .threshold-words h2 span{padding-left:3vw}
+ .threshold-foot{align-self:start;font-size:9px}
+ .contact-section{padding-top:55px}
+ .closing-display{font-size:clamp(49px,12vw,85px)}
+ .closing-composition{margin-bottom:35px}
+ .contact-rows{margin-bottom:65px}
+ .contact-destinations{justify-self:stretch}
+ .footer-line{font-size:9px;gap:15px}
+ .engineering-hero{padding-top:175px;padding-bottom:40px}
+ .chapter-head{font-size:9px;gap:16px}
+ .engineering-hero .chapter-head{margin-bottom:35px}
+ .engineering-display{font-size:clamp(51px,12vw,85px);margin-bottom:30px}
+ .engineering-display span{padding-left:10px}
+ .engineering-sub{flex-direction:column;align-items:start;gap:20px}
+ .engineering-sub p{font-size:18px}
+ .technical-case{padding-block:50px}
+ .technical-heading{gap:25px;margin-bottom:30px}
+ .technical-heading h2{font-size:clamp(35px,8.8vw,58px)}
+ .technical-heading>p{font-size:17px}
+ .case-flow{grid-template-columns:1fr;margin-bottom:32px}
+ .case-flow li,.case-flow li+li{padding:24px 0 24px 35px;border-left:0}
+ .case-flow li+li{border-top:1px solid var(--rule-dark)}
+ .case-flow li+li::before{content:'↓';left:0;top:29px}
+ .case-flow h3{font-size:25px;margin-top:13px}
+ .case-flow p{font-size:16px}
+ .case-reasoning dd{font-size:17px}
+ .code-excerpt figcaption{padding:15px}
+ .code-excerpt pre{padding:20px 15px;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}
+}
+@media(prefers-reduced-motion:reduce){.paper-front,.paper-rear{will-change:auto!important}}
+
+@media(max-width:740px){.threshold-words h2{font-size:clamp(35px,7.8vw,60px)}.threshold-words h2 span{padding-left:0}}
+
+/* Smaller text for smaller screens. */
+@media(max-width:740px){
+ .hero-overline,.chapter-head,.threshold-foot,.footer-line{font-size:11px}
+ .work-overline,.project-stack{font-size:11px}
+ .project-screenshot figcaption{font-size:11px}
+}
+
+/* Adjust the scroll padding for smaller screens. */
+@media(max-width:740px){html{scroll-padding-top:126px}}
