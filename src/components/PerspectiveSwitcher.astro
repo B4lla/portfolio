@@ -1,0 +1,10 @@
+---
+import { paths, type Locale, type View } from '../content/site';
+interface Props { locale: Locale; view: View }
+const { locale, view } = Astro.props;
+const base = paths(locale);
+---
+<nav class:list={["perspective-switcher", { "is-dark": view === "engineering" }]} aria-label={locale === 'es' ? 'Cambiar perspectiva' : 'Switch perspective'} data-perspective-switcher data-current={view}>
+  <a href={base.presentation} class:list={['perspective-tab', { 'is-active': view === 'presentation' }]} data-perspective="presentation" aria-current={view === 'presentation' ? 'page' : undefined} aria-label={locale === 'es' ? 'Perspectiva personal' : 'Personal perspective'}><span>PERSONAL</span></a>
+  <a href={base.engineering} class:list={['perspective-tab', { 'is-active': view === 'engineering' }]} data-perspective="engineering" aria-current={view === 'engineering' ? 'page' : undefined} aria-label={locale === 'es' ? 'Perspectiva de ingeniería' : 'Engineering perspective'}><span>{locale === 'es' ? 'INGENIERÍA' : 'ENGINEERING'}</span></a>
+</nav>
