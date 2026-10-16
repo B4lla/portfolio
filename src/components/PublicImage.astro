@@ -2,8 +2,8 @@
 import type { Locale } from '../content/site';
 import type { VerifiedPublicImage } from '../content/publicFiles';
 // Render-only component, image must come from publicImage() / projectImages().
-interface Props { image: VerifiedPublicImage; locale: Locale; priority?: boolean; className?: string }
-const { image, locale, priority = false, className = '' } = Astro.props;
+interface Props { image: VerifiedPublicImage; locale: Locale; priority?: boolean; className?: string; enlarge?: boolean }
+const { image, locale, priority = false, className = '', enlarge = false } = Astro.props;
 const cssVars = [
   `--image-aspect:${image.aspectRatio}`,
   `--image-fit:${image.objectFit ?? 'contain'}`,
@@ -13,6 +13,9 @@ const cssVars = [
 ].filter(Boolean).join(';');
 ---
 <figure class:list={['content-image', className]} style={cssVars}>
-  <img src={image.src} alt={image.alt[locale]} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : undefined} decoding="async" />
-  {image.caption?.[locale] && <figcaption class="meta">{image.caption[locale]}</figcaption>}
+  <img src={image.src} alt={image.alt[locale]} width={image.width} height={image.height} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : undefined} decoding="async" />
+  {image.caption?.[locale] && <figcaption>
+    <span>{image.caption[locale]}</span>
+    {enlarge && <a href={image.src} target="_blank" rel="noopener noreferrer" aria-label={`${locale === 'es' ? 'Ampliar imagen' : 'Enlarge image'}: ${image.alt[locale]} (${locale === 'es' ? 'nueva pestaña' : 'new tab'})`}>{locale === 'es' ? 'Ampliar' : 'Enlarge'} ↗</a>}
+  </figcaption>}
 </figure>

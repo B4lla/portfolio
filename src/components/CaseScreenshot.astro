@@ -7,5 +7,5 @@ const { locale, project } = Astro.props;
 const images = projectImages(project);
 ---
 {images.length > 0 && <div class="case-gallery">
-  {images.map(image => <PublicImage image={image} locale={locale} className="case-screenshot" />)}
+  {images.map(image => <PublicImage image={image} locale={locale} enlarge className="case-screenshot" />)}
 </div>}

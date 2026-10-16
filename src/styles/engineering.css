@@ -26,6 +26,22 @@
 .code-excerpt{margin:0;border:1px solid var(--rule-dark);background:#131414}
 .code-excerpt figcaption{padding:18px 22px;border-bottom:1px solid var(--rule-dark);color:var(--on-dark);text-transform:none;overflow-wrap:anywhere}
 .code-excerpt pre{margin:0;padding:27px 22px;overflow-x:auto;font:400 clamp(12px,1.05vw,16px)/1.9 var(--mono);tab-size:2}
+.frame-snippet{--snippet-rule:rgba(20,20,20,.28);--snippet-muted:var(--muted);min-width:0;border:1px solid var(--snippet-rule);background:#f3f3f0;color:inherit}
+.dark-universe .frame-snippet{--snippet-rule:rgba(245,245,245,.3);--snippet-muted:var(--on-dark);background:#101010}
+.frame-snippet figcaption{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px;border-color:var(--snippet-rule);font:400 13px/1.55 var(--font);color:var(--snippet-muted)}
+.frame-snippet figcaption .meta{flex-shrink:0;color:var(--snippet-muted)}
+.frame-snippet .code-scroll{max-height:clamp(240px,45svh,360px);overflow:auto;scrollbar-width:thin;scrollbar-color:var(--snippet-muted) transparent;scrollbar-gutter:stable}
+.frame-snippet pre{width:max-content;min-width:100%;padding:20px;overflow:visible;font-size:13px;line-height:1.85}
+/* Keep the highlighter's token colors while using the surrounding surface. */
+.frame-snippet .astro-code{background-color:transparent!important}
+.frame-snippet code{font-family:var(--mono)}
+.project-media .frame-snippet .code-scroll{max-height:290px}
+.case-code{margin-top:40px;min-width:0}
+@media(max-width:740px){
+ .case-code{margin-top:30px}
+ .frame-snippet figcaption{padding-inline:15px}
+ .frame-snippet pre{padding-inline:15px}
+}
 .case-source-links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:18px}
 .case-limit{border-top:1px solid var(--rule-dark);margin-top:30px;padding-top:22px}
 .case-limit h3{font-weight:400;color:var(--on-dark);margin:0 0 12px}
@@ -35,7 +51,7 @@
 
 /* Screenshots */
 .case-screenshot{min-width:0}
-.case-screenshot img{display:block;width:100%;height:auto;max-height:500px}
+.case-screenshot img{display:block;width:100%;height:auto}
 
 .technical-case--frame .technical-heading{grid-template-columns:minmax(0,1.55fr) minmax(220px,.45fr)}
 .technical-case--eufunding .case-source-links{padding-top:4px;border-top:1px solid var(--rule-dark)}

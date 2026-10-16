@@ -7,5 +7,6 @@ const { locale, project, images: resolvedImages } = Astro.props;
 const images = resolvedImages ?? projectImages(project);
 ---
 {images.length > 0 && <div class:list={['project-media', `project-media--${project}`]}>
-  {images.map((image, index) => <PublicImage image={image} locale={locale} className={index === 0 ? 'project-screenshot project-screenshot--cover' : 'project-screenshot project-screenshot--additional'} />)}
+  {images.map((image, index) => <PublicImage image={image} locale={locale} enlarge className={index === 0 ? 'project-screenshot project-screenshot--cover' : 'project-screenshot project-screenshot--additional'} />)}
+
 </div>}

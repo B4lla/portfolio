@@ -1,0 +1,16 @@
+---
+import { Code } from 'astro:components';
+import type { Locale } from '../content/site';
+import { frameSnippet } from '../content/frameSnippet';
+interface Props { locale: Locale; dark?: boolean }
+const { locale, dark = false } = Astro.props;
+const caption = locale === 'es'
+  ? 'Frame · fragmento del renderizador y sus propiedades responsive.'
+  : 'Frame · excerpt from the renderer and its responsive properties.';
+---
+<figure class="code-excerpt frame-snippet">
+  <figcaption><span>{caption}</span><span class="meta">TSX</span></figcaption>
+  <div class="code-scroll" tabindex="0" role="region" aria-label={caption}>
+    <Code code={frameSnippet} lang="tsx" theme={dark ? 'github-dark' : 'github-light'} wrap={null} />
+  </div>
+</figure>

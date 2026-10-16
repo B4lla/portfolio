@@ -41,6 +41,8 @@ export type PublicImage = {
   alt: Record<Locale, string>;
   caption?: Partial<Record<Locale, string>>;
   aspectRatio: string;
+  width?: number;
+  height?: number;
   objectFit?: 'cover' | 'contain';
   objectPosition?: string;
   mobileObjectFit?: 'cover' | 'contain';
@@ -57,31 +59,24 @@ export const media: {
   profile: {
     src: '/images/profile.webp',
     alt: { es: 'Fotografía de Álvaro Ballabriga', en: 'Portrait of Álvaro Ballabriga' },
-    aspectRatio: '3 / 4', objectFit: 'cover', objectPosition: 'center top', mobileObjectFit: 'contain',
+    aspectRatio: '1106 / 1407', width: 1106, height: 1407, objectFit: 'cover', objectPosition: 'center top',
   },
   projects: {
     frame: {
       cover: {
         src: '/images/frame/editor.webp',
         alt: { es: 'Vista real del editor visual Frame', en: 'Real view of the Frame visual editor' },
-        caption: { es: 'Frame · editor visual', en: 'Frame · visual editor' },
-        aspectRatio: '16 / 10', objectFit: 'contain', objectPosition: 'center',
+        caption: { es: 'Frame · árbol de capas, canvas e inspector de propiedades.', en: 'Frame · layer tree, canvas and property inspector.' },
+        aspectRatio: '1809 / 1161', width: 1809, height: 1161, objectFit: 'contain',
       },
-      gallery: [
-        {
-          src: '/images/frame/export.webp',
-          alt: { es: 'Resultado real exportado desde Frame', en: 'Real output exported from Frame' },
-          caption: { es: 'Frame · resultado exportado', en: 'Frame · exported output' },
-          aspectRatio: '16 / 10', objectFit: 'contain',
-        },
-      ],
+      gallery: [],
     },
     eufunding: {
       cover: {
         src: '/images/eufunding/interface.webp',
         alt: { es: 'Interfaz real de consulta de convocatorias de euFunding', en: 'Real euFunding calls search interface' },
-        caption: { es: 'euFunding · interfaz de consulta', en: 'euFunding · search interface' },
-        aspectRatio: '16 / 10', objectFit: 'contain',
+        caption: { es: 'euFunding · búsqueda de convocatorias, tabla de resultados y exportación CSV / Excel.', en: 'euFunding · calls search, results table and CSV / Excel export.' },
+        aspectRatio: '1784 / 994', width: 1784, height: 994, objectFit: 'contain',
       },
       gallery: [],
     },
@@ -89,8 +84,8 @@ export const media: {
       cover: {
         src: '/images/securenotes/application.webp',
         alt: { es: 'Interfaz real de la aplicación SecureNotes', en: 'Real SecureNotes application interface' },
-        caption: { es: 'SecureNotes · aplicación', en: 'SecureNotes · application' },
-        aspectRatio: '16 / 10', objectFit: 'contain',
+        caption: { es: 'SecureNotes · vista de notas con creación de nuevas entradas y cierre de sesión.', en: 'SecureNotes · notes view with new-entry and sign-out controls.' },
+        aspectRatio: '1349 / 422', width: 1349, height: 422, objectFit: 'contain',
       },
       gallery: [],
     },

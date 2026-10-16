@@ -2,6 +2,7 @@
 import { content, paths, type Locale } from '../content/site';
 import ContactSection from './ContactSection.astro';
 import CaseScreenshot from './CaseScreenshot.astro';
+import FrameSnippet from './FrameSnippet.astro';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const e = content[locale].engineering;
@@ -29,12 +30,13 @@ const e = content[locale].engineering;
         <div class="case-evidence">
           <CaseScreenshot locale={locale} project={item.project} />
           {item.code && <figure class="code-excerpt"><figcaption class="meta">{item.codeCaption || e.labels.evidence}</figcaption><pre><code>{item.code}</code></pre></figure>}
-          {(item.code || item.sourceLinks?.length) && <p class="case-evidence-description">{item.evidence}</p>}
+          <p class="case-evidence-description">{item.evidence}</p>
           {item.sourceLinks && <div class="case-source-links">{item.sourceLinks.map(link => <a class="underline-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>}
           {item.backLink && <div class="case-source-links"><a class="underline-link" href={`${paths(locale).presentation}#project-frame`}>{item.backLink} →</a></div>}
           <aside class="case-limit"><h3 class="meta">{e.labels.limit}</h3><p>{item.limit}</p></aside>
         </div>
       </div>
+      {item.project === 'frame' && <div class="case-code"><FrameSnippet locale={locale} dark /></div>}
     </div>
   </section>)}
   <ContactSection locale={locale} chapter="04" />

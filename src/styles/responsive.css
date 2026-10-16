@@ -75,7 +75,7 @@
  .case-flow p{font-size:16px}
  .case-reasoning dd{font-size:17px}
  .code-excerpt figcaption{padding:15px}
- .code-excerpt pre{padding:20px 15px;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}
+ .code-excerpt pre{padding:20px 15px;font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.paper-front,.paper-rear{will-change:auto!important}}
 
@@ -85,7 +85,7 @@
 @media(max-width:740px){
  .hero-overline,.chapter-head,.threshold-foot,.footer-line{font-size:11px}
  .work-overline,.project-stack{font-size:11px}
- .project-screenshot figcaption{font-size:11px}
+ .project-screenshot figcaption{font-size:13px}
 }
 
 /* Adjust the scroll padding for smaller screens. */
