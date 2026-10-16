@@ -239,6 +239,7 @@ function prepareIncoming(rear: HTMLElement, doc: Document, target: string | null
 }
 
 function routeInfo(path: string): { locale: string; view: View } | null {
+  if (path === '/') return { locale: 'en', view: 'presentation' };
   const match = path.match(/^\/(en|es)\/(engineering\/)?$/);
   const locale = match?.[1];
   return match && (locale === 'en' || locale === 'es')
